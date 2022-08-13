@@ -40,3 +40,206 @@ These are the notes from a meeting with the frontend developer that describe wha
 - user_id
 - status of order (active or complete)
 
+
+## Database Schema
+
+### type Order_Status As ENUM ('Active','Completed')
+
+### TABLE Roles:
+    Id serial primary key,
+    RoleName varchar(100) not null UNIQUE
+
+### TABLE Users:
+    Id serial primary key,
+    FirstName varchar(100) not null,
+    LastName varchar(100) not null,
+    UserName varchar(255) not null UNIQUE,
+    Password varchar(255) not null,
+    RoleId integer references Roles(Id) not null
+
+
+### TABLE Categories:
+    Id serial primary key,
+    CategoryName varchar(100) not null UNIQUE
+
+
+### TABLE Products:
+    Id serial primary key,
+    ProductName varchar(100) not null,
+    Price decimal not null,
+    CategoryId integer references Categories(Id) not null
+
+
+### TABLE Orders:
+    Id serial primary key,
+    OrderStatus Order_Status default 'Active',
+    UserId integer references Users(Id) not null
+
+
+### Table ORders_Products
+    OrderId integer references Orders(Id) not null,
+    ProductId integer references Products(Id) not null,
+    Qty integer not null
+
+
+## Implemented API Endpoints
+
+### Role Route: 'http://localhost/api/role' (Admin Authorized): 
+
+- get('/') => _roleController.getAll
+
+- get('/:id') => _roleController.getById
+
+- post('/') => _roleController.createRole
+
+    Request body example:
+    {
+        "rolename": 'Admin'
+    }
+
+- put('/') => _roleController.updateRole
+
+    Request body example:
+    {
+        "roleid": 1,
+        "rolename": "Admin"
+    }
+
+- delete('/:id') => _roleController.deleteRole
+
+### User Route: 'http://localhost/api/user':
+
+- get('/') => _userController.getAll (Admin Authorized)
+
+- get('/:id') => _userController.getById (Token Authenticated)
+
+- get('/:roleid') => _userController.getByRoleId (Admin Authorized)
+
+- post('/register') => _userController.createUser (Returns JWT)
+
+    Request body example:
+    {
+        "firstname": "Ahmed",
+        "lastname": "Badr",
+        "username": "abadr",
+        "password": "P@ssword",
+        "roleid": 1
+    }
+
+- put('/') => _userController.updateUser (User Authorized)
+
+    Request body example:
+    {
+        "id": 1
+        "firstname": "Ahmed",
+        "lastname": "khamis",
+        "username": "abadr",
+        "password": "P@ssword123",
+        "roleid": 1
+    }
+
+- delete('/:id') => _userController.deleteUser (Admin Authorized)
+
+- post('/login') => _userController.login (Returns JWT)
+
+   Request body example:
+    {
+        "username": "abadr",
+        "password": "P@ssword123"
+    }
+
+### Category Route: 'http://localhost/api/category' (Admin Authorized):
+
+- get('/') => _categoryController.getAll
+
+- get('/:id') => _categoryController.getById
+
+- post('/') => _categoryController.createCategory
+
+    Request body example:
+    {
+        "categoryname": "Electronics"
+    }
+
+- put('/') => _categoryController.updateCategory
+
+    Request body example:
+    {
+        "categoyname": 1,
+        "categoryname": "Electronics and Mobiles"
+    }
+
+- delete('/:id') => _categoryController.deleteCategory
+
+### Product Route: 'http://localhost/api/product' (Admin Authorized):
+
+- get('/') => _productController.getAll
+
+- get('/:id') => _productController.getById
+
+- post('/') => _productController.createProduct
+
+    Request body example:
+    {
+        "productName": "Hands Free"
+    }
+
+- put('/') => _productController.updateProduct
+
+    Request body example:
+    {
+        "productid": 1,
+        "productName": "Headphones"
+    }
+
+- delete('/:id') => _productController.deleteProduct
+
+### Order Route: 'http://localhost/api/order' (Token Authenticated):
+
+- get('/') => _orderController.getAll (Admin Authorized)
+
+- get('/:id') => _orderController.getById
+
+- get('/:userid') => _orderController.getAllByUserId
+
+- post('/') => _orderController.createOrder
+
+    Request body example:
+    {
+        "userid": 1,
+        "products": [
+            {
+                "productid": 1,
+                "qty": 3
+            },
+            {
+                "productid": 2,
+                "qty": 1
+            }
+        ]
+    }
+
+- put('/') => _orderController.updateOrder
+
+    Request body example:
+    {
+        "orderid": 1,
+        "products": [
+            {
+                "productid": 1,
+                "qty": 3
+            },
+            {
+                "productid": 2,
+                "qty": 1
+            }
+        ]
+    }
+
+    Or:
+    {
+        "orderid": 1,
+        "orderstatus": "completed"
+    }
+
+- delete('/:id') => _orderController.deleteOrder

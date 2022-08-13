@@ -34,7 +34,7 @@ export class categoryRepo{
         try{
             const conn = await client.connect();
             const sql = 'INSERT INTO Categories (CategoryName) VALUES($1) RETURNING *' 
-            const result = await conn .query(sql, [c.categoryName]);
+            const result = await conn .query(sql, [c.categoryname]);
             conn.release();
             const category = result.rows[0];
             return category;
@@ -46,7 +46,7 @@ export class categoryRepo{
         try{
             const conn = await client.connect();
             const sql = 'UPDATE Categories set CategoryName = $1 where id = $2  RETURNING *' 
-            const result = await conn .query(sql, [c.categoryName, c.id]);
+            const result = await conn .query(sql, [c.categoryname, c.id]);
             conn.release();
             const category = result.rows[0];
             return category;

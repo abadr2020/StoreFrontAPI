@@ -17,14 +17,14 @@ export class orderRepo {
             ordersIds.forEach(id => {
                 const filteredOrders = orderResults.filter(o => o.orderid == id)
                 const order: order={
-                    Id: id,
-                    userId: filteredOrders[0].userid,
-                    orderStatus: filteredOrders[0].orderstatus,
+                    id: id,
+                    userid: filteredOrders[0].userid,
+                    orderstatus: filteredOrders[0].orderstatus,
                     products:[]
                 };
                 filteredOrders.forEach(fo => {
                     const product ={
-                        productId : fo.productid,
+                        productid : fo.productid,
                         qty: fo.qty
                     }
                     order.products.push(product)
@@ -34,7 +34,41 @@ export class orderRepo {
             return orders;
         }catch(err){
             console.log(err);
-            return null;        }
+            return null;        
+        }
+    }
+    async getAllByUserId(userid: number): Promise<order[] | null>{        
+        try{
+            const conn = await client.connect();
+            const sql = 'select * from orders inner join Orders_Products on Orders_Products.OrderId = orders.Id where userid = $1';
+            const result = await conn.query(sql,[userid]);
+            conn.release();
+            const orderResults = result.rows;
+            // console.log(orderResults)
+            const ordersIds = [...new Set(orderResults.map(item => item.id))]; 
+            const orders: order[] = [];
+            ordersIds.forEach(id => {
+                const filteredOrders = orderResults.filter(o => o.orderid == id)
+                const order: order={
+                    id: id,
+                    userid: filteredOrders[0].userid,
+                    orderstatus: filteredOrders[0].orderstatus,
+                    products:[]
+                };
+                filteredOrders.forEach(fo => {
+                    const product ={
+                        productid : fo.productid,
+                        qty: fo.qty
+                    }
+                    order.products.push(product)
+                });
+                orders.push(order)
+            });
+            return orders;
+        }catch(err){
+            console.log(err);
+            return null;        
+        }
     }
     async getById(id: number): Promise<order | null>{
         try{
@@ -55,19 +89,19 @@ export class orderRepo {
         try{
             const conn = await client.connect();
             let sql = 'INSERT INTO orders (UserId) VALUES($1) RETURNING *' 
-            const orderResult = await conn.query(sql, [ord.userId]);
+            const orderResult = await conn.query(sql, [ord.userid]);
             if (orderResult.rowCount > 0 )
             {   
                 const order: order={
-                    Id: orderResult.rows[0]['id'],
-                    userId: ord.userId,
-                    orderStatus: orderResult.rows[0]['orderstatus'],
+                    id: orderResult.rows[0]['id'],
+                    userid: ord.userid,
+                    orderstatus: orderResult.rows[0]['orderstatus'],
                     products:[]
                 };
                 for (const product of ord.products)
                 {
                     sql = 'INSERT INTO Orders_Products (OrderId, ProductId, Qty) VALUES($1, $2, $3)  RETURNING productid, qty'
-                    const result = await conn.query(sql,[orderResult.rows[0].id, product.productId, product.qty]);
+                    const result = await conn.query(sql,[orderResult.rows[0].id, product.productid, product.qty]);
                     order.products.push(result.rows[0]);
                 }
                 conn.release();
@@ -81,22 +115,22 @@ export class orderRepo {
         }
     }
     async updateOrder(ord: order): Promise<order | null> { 
-        try{//To Be Modified
+        try{
             const conn = await client.connect();
-            let sql = 'INSERT INTO orders (UserId) VALUES($1) RETURNING *' 
-            const orderResult = await conn.query(sql, [ord.userId]);
+            let sql = 'DELETE From Orders_Products where orderid = $1 RETURNING *' 
+            const orderResult = await conn.query(sql, [ord.id]);
             if (orderResult.rowCount > 0 )
             {   
                 const order: order={
-                    Id: orderResult.rows[0]['id'],
-                    userId: ord.userId,
-                    orderStatus: orderResult.rows[0]['orderstatus'],
+                    id: ord.id,
+                    userid: ord.userid,
+                    orderstatus: ord.orderstatus,
                     products:[]
                 };
                 for (const product of ord.products)
                 {
                     sql = 'INSERT INTO Orders_Products (OrderId, ProductId, Qty) VALUES($1, $2, $3)  RETURNING productid, qty'
-                    const result = await conn.query(sql,[orderResult.rows[0].id, product.productId, product.qty]);
+                    const result = await conn.query(sql,[ord.id, product.productid, product.qty]);
                     order.products.push(result.rows[0]);
                 }
                 conn.release();

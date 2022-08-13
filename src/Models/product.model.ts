@@ -1,7 +1,7 @@
 
 export interface product {
     id?:number,
-    productName: string,
+    productname: string,
     price: number,
-    categoryId: number
+    categoryid: number
 }

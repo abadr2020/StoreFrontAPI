@@ -1,11 +1,11 @@
 
 interface order_products  {
-    productId: number,
+    productid: number,
     qty: number
 }
 export interface order {
-    Id?: number,
-    orderStatus?: string,
-    userId: number,
+    id?: number,
+    orderstatus?: string,
+    userid: number,
     products: order_products[]
 }

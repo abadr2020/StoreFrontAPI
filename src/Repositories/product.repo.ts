@@ -45,7 +45,7 @@ export class productRepo{
         try{
             const conn = await client.connect();
             const sql = 'INSERT INTO products (ProductName, Price, CategoryId) VALUES($1, $2, $3) RETURNING *' 
-            const result = await conn .query(sql, [p.productName, p.price, p.categoryId]);
+            const result = await conn .query(sql, [p.productname, p.price, p.categoryid]);
             conn.release();
             const product = result.rows[0];
             return product;
@@ -57,7 +57,7 @@ export class productRepo{
         try{
             const conn = await client.connect();
             const sql = 'UPDATE products set ProductName = $1 and Price = $2 and CategoryId = $3 where Id = $4 RETURNING *';
-            const result = await conn .query(sql, [p.productName, p.price, p.categoryId, p.id]);
+            const result = await conn .query(sql, [p.productname, p.price, p.categoryid, p.id]);
             conn.release();
             const product = result.rows[0];
             return product;

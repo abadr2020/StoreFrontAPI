@@ -52,3 +52,76 @@ Add JWT functionality as shown in the course. Make sure that JWTs are required f
 Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
 
 Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+
+## Setup
+
+### Application port number
+
+3500
+
+### DB port number
+
+Defualt port: 5432
+
+### Commands to setup DB
+On pg cli:
+
+CREATE USER store_front_api WITH PASSWORD 'Pass159';
+
+CREATE DATABASE store_front;
+
+CREATE DATABASE store_front_test;
+
+Then run 'npm run db:up' script
+
+### Environment Variables 
+
+POSTGRES_HOST=localhost
+POSTGRES_DB=store_front
+POSTGRES_DB_TEST=store_front_test
+POSTGRES_USER=abadr
+POSTGRES_PASSWORD=secret
+ENV=dev
+SALT_ROUNDS=2
+PEPPER=secret-key
+JWT_SECRET=jwt-secret-key
+
+### Install Dependencies
+
+Run 'npm run install'
+
+## Dependencies
+
+    "bcrypt": "^5.0.1",
+    "db-migrate": "^0.11.13",
+    "db-migrate-pg": "^1.2.2",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-validator": "^6.14.2",
+    "jasmine": "^4.2.1",
+    "jasmine-spec-reporter": "^7.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.7.3",
+    "supertest": "^6.2.4"
+
+## Dev Dependencies
+
+    "@types/bcrypt": "^5.0.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/jasmine": "^4.0.3",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/node": "^18.0.4",
+    "@types/pg": "^8.6.5",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+
+
+  

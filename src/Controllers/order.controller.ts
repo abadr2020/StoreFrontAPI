@@ -4,11 +4,17 @@ import { orderService } from "../Services/order.service";
 const _orderService = new orderService();
 
 export class orderController{
+
     async getAll(req: Request,res: Response){
         const response = await _orderService.getAll();
         if (response.success) res.status(200).json(response);
         else res.status(500).json(response);
    }
+    async getAllByUserId(req: Request,res: Response){
+        const response = await _orderService.getAllByUserId(req);
+        if (response.success) res.status(200).json(response);
+        else res.status(500).json(response);
+    }
     async getById(req: Request,res: Response){
         const response = await _orderService.getById(req);
         if (response.success) res.status(200).json(response);
