@@ -35,7 +35,7 @@ export class roleRepo{
         try{
             const conn = await client.connect();
             const sql = 'INSERT INTO roles (RoleName) VALUES($1) RETURNING *' 
-            const result = await conn.query(sql, [r.roleName]);
+            const result = await conn.query(sql, [r.rolename]);
             conn.release();
             const role = result.rows[0];
             return role;
@@ -47,7 +47,7 @@ export class roleRepo{
         try{
             const conn = await client.connect();
             const sql = 'UPDATE roles set RoleName = $1 where Id = $2 RETURNING *';
-            const result = await conn.query(sql, [r.roleName,r.id]);
+            const result = await conn.query(sql, [r.rolename,r.id]);
             conn.release();
             const role = result.rows[0];
             return role;
