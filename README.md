@@ -72,6 +72,10 @@ CREATE DATABASE store_front;
 
 CREATE DATABASE store_front_test;
 
+GRANT ALL PRIVILEGES ON DATABASE store_front TO store_front_api;
+
+GRANT ALL PRIVILEGES ON DATABASE store_front_test TO store_front_api;
+
 Then run 'npm run db:up' script
 
 nodemon should be installed globally
@@ -85,8 +89,8 @@ Or 'npm run test' script for test.
 POSTGRES_HOST=localhost
 POSTGRES_DB=store_front
 POSTGRES_DB_TEST=store_front_test
-POSTGRES_USER=abadr
-POSTGRES_PASSWORD=secret
+POSTGRES_USER=store_front_api
+POSTGRES_PASSWORD=Pass159
 ENV=dev
 SALT_ROUNDS=2
 PEPPER=secret-key

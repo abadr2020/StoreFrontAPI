@@ -1,5 +1,5 @@
 {
-  "name": "imageprocessingapi",
+  "name": "storefrontapi",
   "version": "1.0.0",
   "description": "",
   "main": "dist/app.js",
@@ -11,8 +11,8 @@
     "db:seed": "npm run build&&node build/utils/seeders/db.seeder.js",
     "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
     "eslint": "eslint . --ext .ts",
-    "test1": " npm run build && set ENV=dev && db-migrate --env test up &&jasmine && db-migrate --env test reset",
-    "test": "npx tsc && jasmine",
+    "test": " npm run build && set ENV=dev && db-migrate --env test up &&jasmine && db-migrate --env test reset",
+    "test1": "npx tsc && jasmine",
     "jasmine": "jasmine"
   },
   "author": "",
