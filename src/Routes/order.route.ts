@@ -1,20 +1,21 @@
 import express from "express";
 import { orderController } from "../Controllers/order.controller";
 import authorizeAdmin from "../Middlewares/authorizeAdmin";
-    
-    const orderRoute = express.Router();
-    const _orderController = new orderController();
+import * as orderValidator from "../Middlewares/Validators/order.validator";
 
-    orderRoute.get('/',authorizeAdmin,_orderController.getAll);
+const orderRoute = express.Router();
+const _orderController = new orderController();
 
-    orderRoute.get('/:id',_orderController.getById);
+orderRoute.get('/', authorizeAdmin, _orderController.getAll);
 
-    orderRoute.get('/:userid',_orderController.getAllByUserId);
+orderRoute.get('/:id', orderValidator.validateGetOrder, _orderController.getById);
 
-    orderRoute.post('/',_orderController.createOrder);
+orderRoute.get('/:userid', orderValidator.validateGetOrderByUserId, _orderController.getAllByUserId);
 
-    orderRoute.put('/',_orderController.updateOrder);
+orderRoute.post('/', orderValidator.validateCreateOrder, _orderController.createOrder);
 
-    orderRoute.delete('/:id',_orderController.deleteOrder);
+orderRoute.put('/', orderValidator.validateUpdateOrder, _orderController.updateOrder);
+
+orderRoute.delete('/:id', orderValidator.validateDeleteOrder, _orderController.deleteOrder);
 
 export default orderRoute

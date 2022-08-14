@@ -74,6 +74,12 @@ CREATE DATABASE store_front_test;
 
 Then run 'npm run db:up' script
 
+nodemon should be installed globally
+
+Then we could run 'npm run start' script
+
+Or 'npm run test' script for test.
+
 ### Environment Variables 
 
 POSTGRES_HOST=localhost
