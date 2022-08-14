@@ -72,13 +72,21 @@ CREATE DATABASE store_front;
 
 CREATE DATABASE store_front_test;
 
+\c store_front
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO store_front_api;
+
+\c store_front_test
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO store_front_api;
+
 GRANT ALL PRIVILEGES ON DATABASE store_front TO store_front_api;
 
 GRANT ALL PRIVILEGES ON DATABASE store_front_test TO store_front_api;
 
 Then run 'npm run db:up' script
 
-nodemon should be installed globally
+db-migrate and nodemon should be installed globally
 
 Then we could run 'npm run start' script
 
@@ -91,7 +99,7 @@ POSTGRES_DB=store_front
 POSTGRES_DB_TEST=store_front_test
 POSTGRES_USER=store_front_api
 POSTGRES_PASSWORD=Pass159
-ENV=dev
+Node_ENV=dev
 SALT_ROUNDS=2
 PEPPER=secret-key
 JWT_SECRET=jwt-secret-key

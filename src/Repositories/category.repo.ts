@@ -58,9 +58,11 @@ export class categoryRepo{
     async deleteCategory(id: number): Promise<category | null> { 
         try{
             const conn = await client.connect();
-            const sql = 'DELETE FROM Categories WHERE id=($1)';
+            const sql = 'DELETE FROM Categories WHERE id=($1) RETURNING *';
             const result = await conn.query(sql, [id]);
             conn.release();
+            if (!result.rowCount)
+            return null;
             const role = result.rows[0];
             return role;
         }catch(err){

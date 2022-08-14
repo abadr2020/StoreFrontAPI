@@ -1,41 +1,41 @@
-Create type Order_Status As ENUM ('Active','Completed');
+Create type order_status As ENUM ('Active','Completed');
 
-CREATE TABLE Roles(
-    Id serial primary key,
-    RoleName varchar(100) not null UNIQUE
+CREATE TABLE roles(
+    id serial primary key,
+    rolename varchar(100) not null UNIQUE
 );
 
-CREATE TABLE Users(
-    Id serial primary key,
-    FirstName varchar(100) not null,
-    LastName varchar(100) not null,
-    UserName varchar(255) not null UNIQUE,
-    Password varchar(255) not null,
-    RoleId integer references Roles(Id) not null
+CREATE TABLE users(
+    id serial primary key,
+    firstname varchar(100) not null,
+    lastname varchar(100) not null,
+    username varchar(255) not null UNIQUE,
+    password varchar(255) not null,
+    roleid integer references Roles(id) not null
 );
 
-CREATE TABLE Categories(
-    Id serial primary key,
-    CategoryName varchar(100) not null UNIQUE
+CREATE TABLE categories(
+    id serial primary key,
+    categoryname varchar(100) not null UNIQUE
 );
 
-CREATE TABLE Products(
-    Id serial primary key,
-    ProductName varchar(100) not null,
-    Price decimal not null,
-    CategoryId integer references Categories(Id) not null
+CREATE TABLE products(
+    id serial primary key,
+    productname varchar(100) not null,
+    price decimal not null,
+    categoryid integer references Categories(id) not null
 );
 
-CREATE TABLE Orders(
-    Id serial primary key,
-    OrderStatus Order_Status default 'Active',
-    UserId integer references Users(Id) not null
+CREATE TABLE orders(
+    id serial primary key,
+    orderstatus order_status default 'Active',
+    userid integer references users(id) not null
 );
 
-Create Table ORders_Products(
-    OrderId integer references Orders(Id) not null,
-    ProductId integer references Products(Id) not null,
-    Qty integer not null
+Create Table orders_products(
+    orderid integer references orders(id) not null,
+    productid integer references products(id) not null,
+    qty integer not null
 );
 
 

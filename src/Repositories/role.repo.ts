@@ -62,6 +62,8 @@ export class roleRepo{
             const sql = 'DELETE FROM roles WHERE id=($1) RETURNING *';
             const result = await conn.query(sql, [id]);
             conn.release();
+            if (!result.rowCount)
+            return null;
             const role = result.rows[0];
             return role;
         }catch(err){

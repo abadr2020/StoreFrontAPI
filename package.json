@@ -8,11 +8,9 @@
     "build": "npx tsc",
     "db:up": "db-migrate up",
     "db:down": "db-migrate reset",
-    "db:seed": "npm run build&&node build/utils/seeders/db.seeder.js",
     "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
     "eslint": "eslint . --ext .ts",
-    "test": " npm run build && set ENV=dev && db-migrate --env test up &&jasmine && db-migrate --env test reset",
-    "test1": "npx tsc && jasmine",
+    "test": " npm run build && set Node_ENV=test && db-migrate --env test up && jasmine && db-migrate --env test reset",
     "jasmine": "jasmine"
   },
   "author": "",

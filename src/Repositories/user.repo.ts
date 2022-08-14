@@ -72,7 +72,7 @@ export class userRepo{
     async updateUser(u: user): Promise<user | null> { 
         try{
             const conn = await client.connect();
-            const sql = 'UPDATE users set FirstName = $1 and LastName = $2 and UserName = $3 and Password = $4 RoleId = $5 where id = $6 RETURNING *' 
+            const sql = 'UPDATE users set FirstName = $1 , LastName = $2 , UserName = $3 , Password = $4 , RoleId = $5 where id = $6 RETURNING *' 
             const result = await conn .query(sql, [u.firstname, u.lastname, u.username, u.password, u.roleid, u.id]);
             conn.release();
             const user = result.rows[0];
@@ -87,6 +87,8 @@ export class userRepo{
             const sql = 'DELETE FROM users WHERE id=($1) RETURNING *';
             const result = await conn.query(sql, [id]);
             conn.release();
+            if (!result.rowCount)
+            return null;
             const user = result.rows[0];
             return user;
         }catch(err){

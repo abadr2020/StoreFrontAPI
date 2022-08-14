@@ -147,8 +147,12 @@ export class orderRepo {
     async deleteOrder(id: number): Promise<number | null> { 
         try{
             const conn = await client.connect();
-            const sql = 'DELETE FROM orders WHERE id=($1)';
-            const result = await conn.query(sql, [id]);
+            let sql = 'DELETE FROM orders_products WHERE orderid=($1)';
+            let result = await conn.query(sql, [id]);
+            if (!result.rowCount)
+                return null;
+            sql = 'DELETE FROM orders WHERE id=($1)';
+            result = await conn.query(sql, [id]);
             conn.release();
             if (!result.rowCount)
                 return null;
