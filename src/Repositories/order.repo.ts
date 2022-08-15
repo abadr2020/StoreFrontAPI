@@ -148,19 +148,25 @@ export class orderRepo {
             let sql = 'DELETE From Orders_Products where orderid = $1 RETURNING *'
             const orderResult = await conn.query(sql, [ord.id]);
             if (orderResult.rowCount > 0) {
-                const order: order = {
-                    id: ord.id,
-                    userid: ord.userid,
-                    orderstatus: ord.orderstatus,
-                    products: []
-                };
-                for (const product of ord.products) {
-                    sql = 'INSERT INTO Orders_Products (OrderId, ProductId, Qty) VALUES($1, $2, $3)  RETURNING productid, qty'
-                    const result = await conn.query(sql, [ord.id, product.productid, product.qty]);
-                    order.products.push(result.rows[0]);
+                sql = 'Update orders set orderstatus=$1, userid=$2 where id = $3 RETURNING *'
+                const orderupdateResult = await conn.query(sql, [ord.orderstatus, ord.userid, ord.id]);
+                if (orderupdateResult.rowCount > 0) {
+                    const order: order = {
+                        id: ord.id,
+                        userid: ord.userid,
+                        orderstatus: ord.orderstatus,
+                        products: []
+                    };
+                    for (const product of ord.products) {
+                        sql = 'INSERT INTO Orders_Products (OrderId, ProductId, Qty) VALUES($1, $2, $3)  RETURNING productid, qty'
+                        const result = await conn.query(sql, [ord.id, product.productid, product.qty]);
+                        order.products.push(result.rows[0]);
+                    }
+                    conn.release();
+                    return order;
+                } else {
+                    return null;
                 }
-                conn.release();
-                return order;
             } else {
                 return null;
             }
