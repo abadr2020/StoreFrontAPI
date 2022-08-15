@@ -33,8 +33,8 @@ CREATE TABLE orders(
 );
 
 Create Table orders_products(
-    orderid integer references orders(id) not null,
-    productid integer references products(id) not null,
+    orderid integer references orders(id) ON delete cascade not null,
+    productid integer references products(id) ON delete cascade not null,
     qty integer not null
 );
 
