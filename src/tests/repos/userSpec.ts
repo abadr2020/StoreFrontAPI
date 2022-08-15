@@ -13,7 +13,7 @@ describe("Store Front Users", () => {
     beforeAll(async () => {
         const role = await _roleRepo.createRole(
             {
-                "rolename" : "Admin"
+                "rolename" : "Users"
             }
         );
         roleid = role?.id as number;
@@ -73,7 +73,8 @@ describe("Store Front Users", () => {
             roleid
         }
         const result = await _userRepo.getAll();
-        expect(result).toEqual([existinguser]);
+        const user = result?.filter(u => u.id == existinguser.id)
+        expect(user).toEqual([existinguser]);
     });
     it('getById method should get user by id', async () => {
         const existinguser: user =  {

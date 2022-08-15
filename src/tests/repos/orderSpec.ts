@@ -13,8 +13,7 @@ const _userRepo = new userRepo();
 
 let categoryid: number;
 let productid: number;
-let roleid: number;
-let userid: number;
+const userid = 1; //seeded User => username: admin, password: P@ssw0rd
 let orderid: number;
 
 
@@ -34,23 +33,7 @@ describe("Store Front Orders", () => {
                 categoryid
             }
         );
-        const role = await _roleRepo.createRole(
-            {
-                "rolename": "Admin"
-            }
-        );
-        roleid = role?.id as number;
-        const user = await _userRepo.createUser(
-            {
-                "firstname": "Ahmed",
-                "lastname": "Badr",
-                "username": "abadr",
-                "password": "P@ssw0rd123",
-                roleid
-            }
-        );
         productid = product?.id as number;
-        userid = user?.id as number;
     })
 
     it('should have an getAll method', () => {
@@ -151,8 +134,6 @@ describe("Store Front Orders", () => {
     afterAll(async () => {
         await _productRepo.deleteProduct(productid);
         await _categoryRepo.deleteCategory(categoryid);
-        await _userRepo.deleteUser(userid);
-        await _roleRepo.deleteRole(roleid);
     })
 });
 

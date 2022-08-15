@@ -45,7 +45,7 @@ describe("Store Front Categories", () => {
             "categoryname" : "Computers"
         }
         const result = await _categoryRepo.getAll();
-        expect(result).toEqual([existingcategory]);
+        expect(result).toContain(existingcategory);
     });
     it('getById method should get category by id', async () => {
         const existingcategory: category = {

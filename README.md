@@ -86,9 +86,19 @@ GRANT ALL PRIVILEGES ON DATABASE store_front_test TO store_front_api;
 
 Then run 'npm run db:up' script
 
+Then run 'npm run db:seed' script
+
+Now an admin user created with the following data:
+
+usernme: admin
+password: P@ssword
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NjA1OTc2Mjh9.njgUY44d4ZvcEK-beMxjfUBzK_FO-8MyiOLl5PW8Af4
+
 db-migrate and nodemon should be installed globally
 
 Then we could run 'npm run start' script
+
+We can add new roles, categories, products, register new users and create orders all using endpoints.
 
 Or 'npm run test' script for test.
 
@@ -111,6 +121,7 @@ Run 'npm run install'
 ## Dependencies
 
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "db-migrate": "^0.11.13",
     "db-migrate-pg": "^1.2.2",
     "dotenv": "^16.0.1",
@@ -125,6 +136,7 @@ Run 'npm run install'
 ## Dev Dependencies
 
     "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
     "@types/jasmine": "^4.0.3",

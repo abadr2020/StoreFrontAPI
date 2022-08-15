@@ -11,7 +11,7 @@ import userRoute from './user.route'
 const Router = express.Router()
 
 
-Router.use('/role', roleRoute)
+Router.use('/role',authorizeAdmin,roleRoute)
 Router.use('/user', userRoute)
 Router.use('/category',authorizeAdmin, categoryRoute)
 Router.use('/product',authorizeAdmin, productRoute)

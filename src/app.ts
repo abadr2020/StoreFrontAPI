@@ -10,6 +10,7 @@ const app = express();
 const port = 3500;
 // declare an endpoint for the root path
 app.get('/', (req: express.Request, res: express.Response): void => {
+  res.sendStatus(404);
 });
 app.use(
   cors(),

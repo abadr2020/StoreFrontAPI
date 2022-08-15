@@ -24,7 +24,7 @@ describe("Store Front Roles", () => {
 
     it('createRole method should create roles', async () => {
         const newrole: role = {
-            "rolename" : "Admin",
+            "rolename" : "User",
         }
         const result = await _roleRepo.createRole(newrole);
         newrole.id = result?.id;
@@ -32,25 +32,26 @@ describe("Store Front Roles", () => {
         expect(result).toEqual(newrole);
     });
     it('updateRole method should update roles', async () => {
-        const updaedrole: role = {
+        const updatedrole: role = {
             "id":roleid,
-            "rolename" : "Admins"
+            "rolename" : "Users"
         }
-        const result = await _roleRepo.updateRole(updaedrole);
-        expect(result).toEqual(updaedrole);
+        const result = await _roleRepo.updateRole(updatedrole);
+        expect(result).toEqual(updatedrole);
     });
     it('getAll method should get All roles', async () => {
         const existingrole: role = {
             "id":roleid,
-            "rolename" : "Admins"
+            "rolename" : "Users"
         }
         const result = await _roleRepo.getAll();
-        expect(result).toEqual([existingrole]);
+        const role = result?.filter(r => r.id == existingrole.id)
+        expect(role).toEqual([existingrole]);
     });
     it('getById method should get role by id', async () => {
         const existingrole: role = {
             "id":roleid,
-            "rolename" : "Admins"
+            "rolename" : "Users"
         }
         const result = await _roleRepo.getById(roleid);
         expect(result).toEqual(existingrole);
@@ -58,7 +59,7 @@ describe("Store Front Roles", () => {
     it('deleteRole method should delete roles', async () => {
         const existingrole: role = {
             "id":roleid,
-            "rolename" : "Admins"
+            "rolename" : "Users"
         }
         const result = await _roleRepo.deleteRole(roleid);
         expect(result).toEqual(existingrole);

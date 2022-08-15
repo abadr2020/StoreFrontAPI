@@ -3,33 +3,17 @@ import app from "../../app";
 import { category } from "../../Models/category.model";
 
 const request = supertest(app);
-let token: string;
+const preservedtoken= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NjA1OTc2Mjh9.njgUY44d4ZvcEK-beMxjfUBzK_FO-8MyiOLl5PW8Af4';   //username: admin, password: P@ssw0rd
 let catid: number;
 
 describe("Store Front Categories Endpoints", () => {
-    beforeAll(async () => {
-        const roleResponse = await request.post('/api/role')
-            .set('Content-type', 'application/json')
-            .send({ rolename: 'Admin' });
-        const roleid = roleResponse.body.Data.id;
-        const userResponse = await request.post('/api/user/register')
-            .set('Content-type', 'application/json')
-            .send({
-                "firstname": "Ahmed",
-                "lastname": "Badr",
-                "username": "abadr",
-                "password": "P@ssw0rd123",
-                roleid
-            });
-        token = userResponse.body.Data;
-    })
 
     it('createCategory endpoint should create categories', async () => {
         const newcategory: category = {
             "categoryname": "Electronics",
         }
         const response = await request.post('/api/category')
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'bearer ' + preservedtoken)
             .send(newcategory)
         newcategory.id = response.body.Data.id
         catid = newcategory.id as number;
@@ -41,34 +25,37 @@ describe("Store Front Categories Endpoints", () => {
             "categoryname": "Computers"
         }
         const response = await request.put('/api/category')
-            .set('Authorization', 'bearer ' + token)
+            .set('Authorization', 'bearer ' + preservedtoken)
             .send(updaedcategory)
         expect(response.body.Data).toEqual(updaedcategory);
     });
-    // it('getAll endpoint should get All categories', async () => {
-    //     const existingcategory: category = {
-    //         "id": categoryid,
-    //         "categoryname": "Computers"
-    //     }
-    //     const result = await _categoryRepo.getAll();
-    //     expect(result).toEqual([existingcategory]);
-    // });
-    // it('getById endpoint should get category by id', async () => {
-    //     const existingcategory: category = {
-    //         "id": categoryid,
-    //         "categoryname": "Computers"
-    //     }
-    //     const result = await _categoryRepo.getById(categoryid);
-    //     expect(result).toEqual(existingcategory);
-    // });
-    // it('deleteCategory endpoint should delete categories', async () => {
-    //     const existingcategory: category = {
-    //         "id": categoryid,
-    //         "categoryname": "Computers"
-    //     }
-    //     const result = await _categoryRepo.deleteCategory(categoryid);
-    //     expect(result).toEqual(existingcategory);
-    // });
+    it('getAll endpoint should get All categories', async () => {
+        const existingcategory: category = {
+            "id": catid,
+            "categoryname": "Computers"
+        }
+        const response = await request.get('/api/category')
+            .set('Authorization', 'bearer ' + preservedtoken)
+        expect(response.body.Data).toEqual([existingcategory]);
+    });
+    it('getById endpoint should get category by id', async () => {
+        const existingcategory: category = {
+            "id": catid,
+            "categoryname": "Computers"
+        }
+        const response = await request.get('/api/category/'+catid)
+        .set('Authorization', 'bearer ' + preservedtoken)
+        expect(response.body.Data).toEqual(existingcategory);
+    });
+    it('deleteCategory endpoint should delete categories', async () => {
+        const existingcategory: category = {
+            "id": catid,
+            "categoryname": "Computers"
+        }
+        const response = await request.delete('/api/category/'+catid)
+        .set('Authorization', 'bearer ' + preservedtoken)
+        expect(response.body.Data).toEqual(existingcategory);
+    });
 });
 
 
