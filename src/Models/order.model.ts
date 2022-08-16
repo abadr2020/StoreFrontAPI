@@ -5,7 +5,7 @@ interface order_products {
 }
 export interface order_products_List {
     productid: number,
-    price: string,
+    price?: string,
     qty: number
 }
 export interface order {

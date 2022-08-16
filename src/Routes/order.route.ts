@@ -8,14 +8,14 @@ const _orderController = new orderController();
 
 orderRoute.get('/', authorizeAdmin, _orderController.getAll);
 
-orderRoute.get('/:id', orderValidator.validateGetOrder, _orderController.getById);
+orderRoute.get('/:id', orderValidator.validateGetOrder(), _orderController.getById);
 
-orderRoute.get('/:userid', orderValidator.validateGetOrderByUserId, _orderController.getAllByUserId);
+orderRoute.get('/getallbyuser/:userid', orderValidator.validateGetOrderByUserId(), _orderController.getAllByUserId);
 
-orderRoute.post('/', orderValidator.validateCreateOrder, _orderController.createOrder);
+orderRoute.post('/', orderValidator.validateCreateOrder(), _orderController.createOrder);
 
-orderRoute.put('/', orderValidator.validateUpdateOrder, _orderController.updateOrder);
+orderRoute.put('/', orderValidator.validateUpdateOrder(), _orderController.updateOrder);
 
-orderRoute.delete('/:id', orderValidator.validateDeleteOrder, _orderController.deleteOrder);
+orderRoute.delete('/:id', orderValidator.validateDeleteOrder(), _orderController.deleteOrder);
 
 export default orderRoute

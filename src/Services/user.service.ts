@@ -8,21 +8,21 @@ import jwt from "jsonwebtoken";
 
 const _userRepo = new userRepo();
 
-export class userService{
+export class userService {
     public salt = Number(appConfig.saltRounds);
     public pepper = appConfig.pepper;
     public jwtSecret = appConfig.jwtSecret;
-    async getAll(): Promise<responseObject>{
+    async getAll(): Promise<responseObject> {
         try {
             const users = await _userRepo.getAll();
             const responseObj: responseObject = {};
-            if(users) {
-                responseObj.Data =users
-                responseObj.success= true
+            if (users) {
+                responseObj.Data = users
+                responseObj.success = true
             } else {
-                responseObj.success= false;
+                responseObj.success = false;
             }
-            return responseObj; 
+            return responseObj;
         } catch (error) {
             const responseObj: responseObject = {
                 success: false
@@ -31,18 +31,18 @@ export class userService{
             return responseObj;
         }
     }
-    async getById(req: Request){
-        try{
+    async getById(req: Request) {
+        try {
             const { id } = req.params;
             const user = await _userRepo.getById(parseInt(id));
             const responseObj: responseObject = {};
-            if(user) {
-                responseObj.Data =user
-                responseObj.success= true
+            if (user) {
+                responseObj.Data = user
+                responseObj.success = true
             } else {
-                responseObj.success= false;
+                responseObj.success = false;
             }
-            return responseObj;         
+            return responseObj;
         } catch (error) {
             const responseObj: responseObject = {
                 success: false
@@ -51,18 +51,18 @@ export class userService{
             return responseObj;
         }
     }
-    async getByRoleId(req: Request){
-        try{
+    async getByRoleId(req: Request) {
+        try {
             const { roleid } = req.params;
             const user = await _userRepo.getByRoleId(parseInt(roleid));
             const responseObj: responseObject = {};
-            if(user) {
-                responseObj.Data =user
-                responseObj.success= true
+            if (user) {
+                responseObj.Data = user
+                responseObj.success = true
             } else {
-                responseObj.success= false;
+                responseObj.success = false;
             }
-            return responseObj;         
+            return responseObj;
         } catch (error) {
             const responseObj: responseObject = {
                 success: false
@@ -71,25 +71,25 @@ export class userService{
             return responseObj;
         }
     }
-    async createUser(req: Request){
-        try{
+    async createUser(req: Request) {
+        try {
             const user: user = req.body;
-            const hash = bcrypt.hashSync(user.password + this.pepper , this.salt);
+            const hash = bcrypt.hashSync(user.password + this.pepper, this.salt);
             user.password = hash;
             const createdUser = await _userRepo.createUser(user);
             const responseObj: responseObject = {};
-            if(createdUser) {
+            if (createdUser) {
                 const tokenPayload = {
                     userid: createdUser.id,
                     username: createdUser.username
                 }
-                const token = jwt.sign(tokenPayload,this.jwtSecret as jwt.Secret)
-                responseObj.Data =token
-                responseObj.success= true
+                const token = jwt.sign(tokenPayload, this.jwtSecret as jwt.Secret)
+                responseObj.Data = token
+                responseObj.success = true
             } else {
-                responseObj.success= false;
+                responseObj.success = false;
             }
-            return responseObj;         
+            return responseObj;
         } catch (error) {
             const responseObj: responseObject = {
                 success: false
@@ -98,25 +98,25 @@ export class userService{
             return responseObj;
         }
     }
-    async updateUser(req: Request){
-        try{
+    async updateUser(req: Request) {
+        try {
             const user: user = req.body;
-            const hash = bcrypt.hashSync(user.password + this.pepper , this.salt);
+            const hash = bcrypt.hashSync(user.password + this.pepper, this.salt);
             user.password = hash;
             const updatedUser = await _userRepo.updateUser(user);
             const responseObj: responseObject = {};
-            if(updatedUser) {
+            if (updatedUser) {
                 const tokenPayload = {
                     userid: updatedUser.id,
                     username: updatedUser.username
                 }
-                const token = jwt.sign(tokenPayload,this.jwtSecret as jwt.Secret)
-                responseObj.Data =token
-                responseObj.success= true
+                const token = jwt.sign(tokenPayload, this.jwtSecret as jwt.Secret)
+                responseObj.Data = token
+                responseObj.success = true
             } else {
-                responseObj.success= false;
+                responseObj.success = false;
             }
-            return responseObj;         
+            return responseObj;
         } catch (error) {
             const responseObj: responseObject = {
                 success: false
@@ -126,19 +126,19 @@ export class userService{
         }
 
     }
-    async deleteUser(req: Request){
-        try{
+    async deleteUser(req: Request) {
+        try {
             const { id } = req.params;
             const user = await _userRepo.deleteUser(parseInt(id));
             const responseObj: responseObject = {};
-            if(user) {
-                responseObj.Data =user
-                responseObj.success= true
+            if (user) {
+                responseObj.Data = user
+                responseObj.success = true
             } else {
-                responseObj.success= false;
+                responseObj.success = false;
             }
-            return responseObj;         
-         } catch (error) {
+            return responseObj;
+        } catch (error) {
             const responseObj: responseObject = {
                 success: false
             }
@@ -147,25 +147,25 @@ export class userService{
         }
 
     }
-    async login(req: Request){
-        try{
-            const { username,password } = req.body;
+    async login(req: Request) {
+        try {
+            const { username, password } = req.body;
             const user = await _userRepo.getByUsername(username);
             const responseObj: responseObject = {
                 success: false
             };
-            if(user) {
-                if(bcrypt.compareSync(password+this.pepper,user.password)){
+            if (user) {
+                if (bcrypt.compareSync(password + this.pepper, user.password)) {
                     const tokenPayload = {
                         userid: user.id,
                         username: user.username
                     }
-                    const token = jwt.sign(tokenPayload,this.jwtSecret as jwt.Secret)
-                    responseObj.Data =token
-                    responseObj.success= true
+                    const token = jwt.sign(tokenPayload, this.jwtSecret as jwt.Secret)
+                    responseObj.Data = token
+                    responseObj.success = true
                 }
             }
-            return responseObj;         
+            return responseObj;
         } catch (error) {
             const responseObj: responseObject = {
                 success: false
@@ -174,5 +174,5 @@ export class userService{
             return responseObj;
         }
     }
-    
+
 }
