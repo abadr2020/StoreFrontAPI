@@ -153,5 +153,20 @@ Run 'npm run install'
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4"
 
+## Scripts
 
+"scripts": {
+    "start":"node dist/app.js",
+    "dev": "nodemon src/app.ts",
+    "build": "npx tsc",
+    "db:up": "db-migrate up",
+    "db:down": "db-migrate reset",
+    "db:up-dev": "db-migrate up --env test",
+    "db:down-dev": "db-migrate reset --env test",
+    "db:seed": "npm run build&&node dist/utils/seeders/db.seeder.js",
+    "prettier": "prettier --config .prettierrc \"src/**/*.ts\" --write",
+    "eslint": "eslint . --ext .ts",
+    "test": " npm run build&&set Node_ENV=test&&db-migrate --env test up&&node dist/utils/seeders/db.seeder.js&&jasmine&&db-migrate --env test reset",
+    "jasmine": "jasmine"
+  }
   

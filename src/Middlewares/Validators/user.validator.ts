@@ -18,12 +18,12 @@ const validateGetUserByRoleId = () => {
 const validateCreateUser = () => {
     return [
         check('firstname', 'firstname should be provided').exists()
-            .isLength({ min: 5, max: 50 }).withMessage('firstname should be between 5 and 50 char')
-            .isAlphanumeric().withMessage('firstname should be alphanumeric')
+            .isLength({ min: 3, max: 50 }).withMessage('firstname should be between 5 and 50 char')
+            .isString().withMessage('firstname should be alphanumeric')
             .trim(),
         check('lastname', 'lastname should be provided').exists()
-            .isLength({ min: 5, max: 50 }).withMessage('lastname should be between 5 and 50 char')
-            .isAlphanumeric().withMessage('lastname should be alphanumeric')
+            .isLength({ min: 3, max: 50 }).withMessage('lastname should be between 5 and 50 char')
+            .isString().withMessage('lastname should be alphanumeric')
             .trim(),
         check('username', 'username should be provided').exists()
             .isLength({ min: 5, max: 50 }).withMessage('username should be between 5 and 50 char')
@@ -40,12 +40,12 @@ const validateUpdateUser = () => {
         check('id', 'user id should be provided').exists()
             .isInt().withMessage('user id should be a number'),
         check('firstname', 'firstname should be provided').exists()
-            .isLength({ min: 5, max: 50 }).withMessage('firstname should be between 5 and 50 char')
-            .isAlphanumeric().withMessage('firstname should be alphanumeric')
+            .isLength({ min: 3, max: 50 }).withMessage('firstname should be between 5 and 50 char')
+            .isString().withMessage('firstname should be alphanumeric')
             .trim(),
         check('lastname', 'lastname should be provided').exists()
-            .isLength({ min: 5, max: 50 }).withMessage('lastname should be between 5 and 50 char')
-            .isAlphanumeric().withMessage('lastname should be alphanumeric')
+            .isLength({ min: 3, max: 50 }).withMessage('lastname should be between 5 and 50 char')
+            .isString().withMessage('lastname should be alphanumeric')
             .trim(),
         check('username', 'username should be provided').exists()
             .isLength({ min: 5, max: 50 }).withMessage('username should be between 5 and 50 char')

@@ -1,18 +1,20 @@
 import express from "express";
 import { productController } from "../Controllers/product.controller";
 import * as productValidator from "../Middlewares/Validators/product.validator";
-    
-    const productRoute = express.Router();
-    const _productController = new productController();
 
-    productRoute.get('/', _productController.getAll);
+const productRoute = express.Router();
+const _productController = new productController();
 
-    productRoute.get('/:id',productValidator.validateGetProduct(), _productController.getById);
+productRoute.get('/', _productController.getAll);
 
-    productRoute.post('/',productValidator.validateCreateProduct(),_productController.createProduct);
+productRoute.get('/:id', productValidator.validateGetProduct(), _productController.getById);
 
-    productRoute.put('/',productValidator.validateUpdateProduct(),_productController.updateProduct);
+productRoute.get('/getallbycatid/:catid', productValidator.validateGetProductsByCatId(), _productController.getByCatId);
 
-    productRoute.delete('/:id',productValidator.validateDeleteProduct(),_productController.deleteProduct);
+productRoute.post('/', productValidator.validateCreateProduct(), _productController.createProduct);
+
+productRoute.put('/', productValidator.validateUpdateProduct(), _productController.updateProduct);
+
+productRoute.delete('/:id', productValidator.validateDeleteProduct(), _productController.deleteProduct);
 
 export default productRoute

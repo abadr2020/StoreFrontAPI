@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import app from "../../app";
 import { user } from "../../Models/user.model";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const request = supertest(app);
 const preservedtoken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE2NjA1OTc2Mjh9.njgUY44d4ZvcEK-beMxjfUBzK_FO-8MyiOLl5PW8Af4';   //username: admin, password: P@ssw0rd
@@ -38,6 +38,7 @@ describe("Store Front users Endpoints", () => {
         const response = await request.put('/api/user')
             .set('Authorization', 'bearer ' + usertoken)
             .send(_user)
+        const { userid } = jwt.decode(usertoken) as jwt.JwtPayload
         usertoken = response.body.Data;
         expect(response.body.Data).toEqual(usertoken);
     });
@@ -61,6 +62,15 @@ describe("Store Front users Endpoints", () => {
         const users = response.body.Data as user[]
         const user = users.filter(r => r.id == _user.id)
         expect(user).toEqual([_user]);
+    });
+    it('Login endpoint should get user by id', async () => {
+        const response = await request.post('/api/user/login')
+            .send({
+                "username": "admin",
+                "password": "P@ssw0rd"
+            })
+        usertoken = response.body.Data;
+        expect(response.body.Data).toEqual(usertoken);
     });
     it('deleteusers endpoint should delete users', async () => {
         const response = await request.delete('/api/user/' + _user.id)

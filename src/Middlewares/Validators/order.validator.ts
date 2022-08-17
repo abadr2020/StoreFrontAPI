@@ -32,7 +32,7 @@ const validateUpdateOrder = () => {
         check('id', 'order id should be provided').exists()
             .isInt().withMessage('order id should be a number'),
         check('orderstatus').optional()
-            .isIn(['active', 'completed']).withMessage('order status should be either active or completed'),
+            .isIn(['Active', 'Completed']).withMessage('order status should be either Active or Completed'),
         check('order.*.productname', 'productname should be provided').exists()
             .isLength({ min: 5, max: 50 }).withMessage('productname should be between 5 and 50 char')
             .isAlphanumeric().withMessage('productname should be alphanumeric')

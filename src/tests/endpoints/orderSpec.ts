@@ -58,17 +58,25 @@ describe("Store Front orders Endpoints", () => {
         delete order[0].products[0].price;
         expect(order).toEqual([_order]);
     });
+    it('getAllByUserId endpoint should get All orders', async () => {
+        const response = await request.get('/api/order/getallbyuser/' + userid)
+            .set('Authorization', 'bearer ' + preservedtoken)
+        const orders = response.body.Data as orderList[]
+        const order = orders.filter(r => r.id == _order.id)
+        delete order[0].products[0].price;
+        expect(order).toEqual([_order]);
+    });
     it('getById endpoint should get order by id', async () => {
         const response = await request.get('/api/order/' + _order.id)
             .set('Authorization', 'bearer ' + preservedtoken)
-        delete response.body.Data[0].products[0].price;
+        delete response.body.Data.products[0].price;
         expect(response.body.Data).toEqual(_order);
     });
-    // it('deleteorders endpoint should delete orders', async () => {
-    //     const response = await request.delete('/api/order/' + _order.id)
-    //         .set('Authorization', 'bearer ' + preservedtoken)
-    //     expect(response.body.Data).toEqual(_order);
-    // });
+    it('deleteorders endpoint should delete orders', async () => {
+        const response = await request.delete('/api/order/' + _order.id)
+            .set('Authorization', 'bearer ' + preservedtoken)
+        expect(response.body.Data).toEqual(1);
+    });
     afterAll(async () => {
         await request.delete('/api/product/' + _product.id)
             .set('Authorization', 'bearer ' + preservedtoken)

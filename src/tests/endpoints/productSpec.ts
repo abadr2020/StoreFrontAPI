@@ -45,6 +45,13 @@ describe("Store Front products Endpoints", () => {
             .set('Authorization', 'bearer ' + preservedtoken)
         expect(response.body.Data).toEqual(_product);
     });
+    it('getByCatId endpoint should get product by category id', async () => {
+        const response = await request.get('/api/product/getallbycatid/' + categoryid)
+            .set('Authorization', 'bearer ' + preservedtoken)
+        const products = response.body.Data as product[]
+        const product = products.filter(p => p.id == _product.id)
+        expect(product).toEqual([_product]);
+    });
     it('deleteproducts endpoint should delete products', async () => {
         const response = await request.delete('/api/product/' + _product.id)
             .set('Authorization', 'bearer ' + preservedtoken)

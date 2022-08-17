@@ -74,10 +74,18 @@ export class userService {
     async createUser(req: Request) {
         try {
             const user: user = req.body;
+            const responseObj: responseObject = {
+                ErrorMessages: []
+            };
+            const duplicateUser = await _userRepo.getByUsername(user.username);
+            if (duplicateUser) {
+                responseObj.success = false;
+                responseObj.ErrorMessages?.push("Duplicate Username");
+                return responseObj;
+            }
             const hash = bcrypt.hashSync(user.password + this.pepper, this.salt);
             user.password = hash;
             const createdUser = await _userRepo.createUser(user);
-            const responseObj: responseObject = {};
             if (createdUser) {
                 const tokenPayload = {
                     userid: createdUser.id,

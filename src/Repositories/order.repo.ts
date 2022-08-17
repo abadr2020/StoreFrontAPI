@@ -187,17 +187,6 @@ export class orderRepo {
             if (!result.rowCount)
                 return null;
             return result.rowCount;
-            // const conn = await client.connect();
-            // let sql = 'DELETE FROM orders_products WHERE orderid=($1)';
-            // let result = await conn.query(sql, [id]);
-            // if (!result.rowCount)
-            //     return null;
-            // sql = 'DELETE FROM orders WHERE id=($1)';
-            // result = await conn.query(sql, [id]);
-            // conn.release();
-            // if (!result.rowCount)
-            //     return null;
-            // return result.rowCount;
         } catch (err) {
             throw new Error(`Something went wrong with error: ${err}`);
         }
